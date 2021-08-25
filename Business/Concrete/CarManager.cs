@@ -21,7 +21,7 @@ namespace Business.Concrete
 
         public IResult Add(Car car)
         {
-            if(car.Description.Length<2)
+            if(car.Description.Length<=2)
             {
                 return new ErrorResult(Messages.CarNameInvalid);
             }
@@ -55,5 +55,16 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.ColorId == id));
         }
+
+        public IDataResult<List<Car>> GetCarsByDailyPrice(decimal min, decimal max)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice>=min & c.DailyPrice<=max));
+        }
+
+        public IDataResult<List<Car>> GetCarsByModelYear(decimal min, decimal max)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear >= min & c.ModelYear <= max));
+        }
     }
+    
 }
